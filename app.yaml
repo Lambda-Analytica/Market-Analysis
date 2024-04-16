@@ -1,19 +1,21 @@
 runtime: python39
 env: flex
 
-# Gunicorn configuration optimized for low usage
-entrypoint: gunicorn -w 2 -b :$PORT app:server  # 2 workers should be sufficient for handling 2-3 users
+entrypoint: gunicorn -w 2 -b :$PORT app:server  # Reduced number of workers for lower traffic
 
-# Basic scaling settings
-basic_scaling:
-  max_instances: 2  # Limits the maximum number of instances to 2
-  idle_timeout: 300s  # Instances are shut down after 5 minutes of inactivity
+automatic_scaling:
+  min_num_instances: 1  # Keep at least one instance running
+  max_num_instances: 2  # Limit to two instances to control costs
+  cool_down_period_sec: 120  # Longer cooldown period to prevent rapid scaling
+  cpu_utilization:
+    target_utilization: 0.75  # Allow higher CPU utilization before scaling
 
 resources:
   cpu: 1
-  memory_gb: 0.5  # Adjust if your application is memory intensive
-  disk_size_gb: 10  # Adjust based on the size of your application and any data stored locally
+  memory_gb: 0.5  # Sufficient for small-scale data processing
+  disk_size_gb: 10  # Default disk size, adjust if more storage is needed
 
 env_variables:
   BUCKET_NAME: "dinex_bucket"
+
 
