@@ -1,16 +1,11 @@
 #========================================LIBRARIES========================================
 from dash import Dash, dcc, html, Input, Output
 from dash.dependencies import Input, Output
-import plotly.graph_objs as go
 import pandas as pd
-from dash.dependencies import Input, Output
-from dash import dcc
 import dash_leaflet as dl
 import plotly.express as px
 import plotly.graph_objects as go
 from dash import callback_context
-from dash import dcc
-from dash import html
 from google.cloud import storage
 from io import BytesIO
 
@@ -18,18 +13,16 @@ from io import BytesIO
 #========================================LOAD DATA========================================
 
 def load_data_from_gcs(bucket_name, blob_name):
-    """Load data from a Google Cloud Storage bucket into a pandas DataFrame."""
-    # Initialize a client
-    client = storage.Client()
-    # Access the bucket
-    bucket = client.bucket(bucket_name)
-    # Access the blob (file) within the bucket
-    blob = bucket.blob(blob_name)
-    # Download the contents of the blob as bytes
-    data = blob.download_as_bytes()
-    # Convert the bytes data to a pandas DataFrame
-    df = pd.read_csv(BytesIO(data), encoding='latin-1', low_memory=False)
-    return df
+    try:
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(blob_name)
+        data = blob.download_as_bytes()
+        df = pd.read_csv(BytesIO(data), encoding='latin-1', low_memory=False)
+        return df
+    except Exception as e:
+        print(f"Failed to load data: {e}")
+        return pd.DataFrame()  # Return empty DataFrame or re-raise the exception based on your app's requirements
 
 
 # Load the equipment data
@@ -475,4 +468,4 @@ def update_engine_brand_graph(selected_years):
 
 # Main entry point
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
