@@ -8,11 +8,12 @@ import plotly.graph_objects as go
 from dash import callback_context
 from google.cloud import storage
 from io import BytesIO
-
+import os
 
 #========================================LOAD DATA========================================
 
-def load_data_from_gcs(bucket_name, blob_name):
+def load_data_from_gcs(blob_name):
+    bucket_name = os.getenv('BUCKET_NAME')  # Retrieve the bucket name from environment variables
     try:
         client = storage.Client()
         bucket = client.bucket(bucket_name)
