@@ -11,15 +11,33 @@ import plotly.graph_objects as go
 from dash import callback_context
 from dash import dcc
 from dash import html
+from google.cloud import storage
+from io import BytesIO
 
 
 #========================================LOAD DATA========================================
-equipment_df = pd.read_csv('Dinex_US/data/merged_equipment1.csv',
-                        encoding='latin-1', low_memory=False)
+
+def load_data_from_gcs(bucket_name, blob_name):
+    """Load data from a Google Cloud Storage bucket into a pandas DataFrame."""
+    # Initialize a client
+    client = storage.Client()
+    # Access the bucket
+    bucket = client.bucket(bucket_name)
+    # Access the blob (file) within the bucket
+    blob = bucket.blob(blob_name)
+    # Download the contents of the blob as bytes
+    data = blob.download_as_bytes()
+    # Convert the bytes data to a pandas DataFrame
+    df = pd.read_csv(BytesIO(data), encoding='latin-1', low_memory=False)
+    return df
+
+
+# Load the equipment data
+equipment_df = load_data_from_gcs('dinex_bucket', 'merged_equipment1.csv')
 equipment_df['year'] = pd.to_datetime(equipment_df['Model Yr'], format='%Y', errors='coerce').dt.year  # Converts 'Model Yr' column to datetime object keeping only the year
 
-sales_df = pd.read_csv('Dinex_US/data/clean_sales1.csv',
-                        encoding='latin-1', low_memory=False)
+# Load the sales data
+sales_df = load_data_from_gcs('dinex_bucket', 'clean_sales1.csv')
 
 
 #========================================INITIALIZE APP========================================
