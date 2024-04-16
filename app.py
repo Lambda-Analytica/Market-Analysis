@@ -27,11 +27,11 @@ def load_data_from_gcs(blob_name):
 
 
 # Load the equipment data
-equipment_df = load_data_from_gcs('dinex_bucket', 'merged_equipment1.csv')
+equipment_df = load_data_from_gcs('merged_equipment1.csv')
 equipment_df['year'] = pd.to_datetime(equipment_df['Model Yr'], format='%Y', errors='coerce').dt.year  # Converts 'Model Yr' column to datetime object keeping only the year
 
 # Load the sales data
-sales_df = load_data_from_gcs('dinex_bucket', 'clean_sales1.csv')
+sales_df = load_data_from_gcs('clean_sales1.csv')
 
 
 #========================================INITIALIZE APP========================================
