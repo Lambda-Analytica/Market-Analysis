@@ -1,4 +1,4 @@
-runtime: python38
+runtime: python39  # Use the Python version that matches your development environment
 env: flex
 entrypoint: gunicorn -b :$PORT app:server
 
@@ -10,3 +10,7 @@ resources:
   cpu: 1
   memory_gb: 0.5
   disk_size_gb: 10
+
+env_variables:
+  # If your app requires access to the bucket:
+  BUCKET_NAME: "dinex_bucket"
