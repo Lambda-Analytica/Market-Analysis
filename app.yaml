@@ -1,21 +1,18 @@
 runtime: python39
-env: flex
+env: standard
 
 entrypoint: gunicorn -w 2 -b :$PORT app:server  # Reduced number of workers for lower traffic
 
 automatic_scaling:
-  min_num_instances: 1  # Keep at least one instance running
-  max_num_instances: 2  # Limit to two instances to control costs
-  cool_down_period_sec: 120  # Longer cooldown period to prevent rapid scaling
-  cpu_utilization:
-    target_utilization: 0.75  # Allow higher CPU utilization before scaling
+  min_idle_instances: 1  # Minimum number of idle instances
+  max_idle_instances: 2  # Maximum number of idle instances
+  min_instances: 1  # Minimum number of running instances
+  max_instances: 2  # Maximum number of running instances
+  target_cpu_utilization: 0.75
+  target_throughput_utilization: 0.75
 
-resources:
-  cpu: 1
-  memory_gb: 0.5  # Sufficient for small-scale data processing
-  disk_size_gb: 10  # Default disk size, adjust if more storage is needed
+# Resources section is not used in the standard environment
+# App Engine Standard environment automatically scales instances and manages resources.
 
 env_variables:
   BUCKET_NAME: "dinex_bucket"
-
-
