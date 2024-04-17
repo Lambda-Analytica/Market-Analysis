@@ -1,7 +1,7 @@
 runtime: python39
 env: standard
 
-entrypoint: gunicorn -w 2 -b :$PORT app:server  # Reduced number of workers for lower traffic
+entrypoint: gunicorn -b :$PORT app:server  # Reduced number of workers for lower traffic
 
 automatic_scaling:
   min_idle_instances: 1  # Minimum number of idle instances
