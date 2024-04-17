@@ -10,6 +10,10 @@ from google.cloud import storage
 from io import BytesIO
 import os
 
+#========================================INITIALIZE APP========================================
+app = Dash(__name__, suppress_callback_exceptions=True)
+server = app.server
+
 #========================================LOAD DATA========================================
 
 def load_data_from_gcs(blob_name):
@@ -32,11 +36,6 @@ equipment_df['year'] = pd.to_datetime(equipment_df['Model Yr'], format='%Y', err
 
 # Load the sales data
 sales_df = load_data_from_gcs('clean_sales1.csv')
-
-
-#========================================INITIALIZE APP========================================
-app = Dash(__name__, suppress_callback_exceptions=True)
-server = app.server
 
 
 #========================================LAYOUTS========================================
