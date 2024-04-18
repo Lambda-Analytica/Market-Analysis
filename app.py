@@ -17,7 +17,7 @@ server = app.server
 #========================================LOAD DATA========================================
 
 def load_data_from_gcs(blob_name):
-    bucket_name = os.getenv('dinex_bucket')  # Retrieve the bucket name from environment variables
+    bucket_name = os.getenv('BUCKET_NAME')  # Corrected to the right environment variable
     try:
         client = storage.Client()
         bucket = client.bucket(bucket_name)
