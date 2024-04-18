@@ -18,31 +18,16 @@ server = app.server
 
 def load_data_from_gcs(blob_name):
     bucket_name = os.getenv('dinex_bucket')  # Retrieve the bucket name from environment variables
-    if not bucket_name:
-        print("Bucket name not set in environment variables")
-        return pd.DataFrame()
-    
-    client = storage.Client()
-    bucket = client.bucket(bucket_name)
-    if not bucket:
-        print("Bucket not found")
-        return pd.DataFrame()
-
-    blob = bucket.blob(blob_name)
-    if not blob.exists():
-        print("Blob does not exist")
-        return pd.DataFrame()
-
     try:
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(blob_name)
         data = blob.download_as_bytes()
         df = pd.read_csv(BytesIO(data), encoding='latin-1', low_memory=False)
-        if 'State' not in df.columns:
-            print("State column not found in DataFrame")
-            return pd.DataFrame()
         return df
     except Exception as e:
         print(f"Failed to load data: {e}")
-        return pd.DataFrame()  # More informative error handling
+        return pd.DataFrame()  # Return empty DataFrame or re-raise the exception based on your app's requirements
 
 
 # Load the equipment data
