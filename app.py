@@ -23,7 +23,7 @@ def load_data_from_gcs(blob_name):
         bucket = client.bucket(bucket_name)
         blob = bucket.blob(blob_name)
         data = blob.download_as_bytes()
-        df = pd.read_csv(BytesIO(data), encoding='latin-1', low_memory=False)
+        df = pd.read_csv(BytesIO(data), low_memory=False)
         return df
     except Exception as e:
         print(f"Failed to load data: {e}")
