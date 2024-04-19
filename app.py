@@ -15,9 +15,9 @@ app = Dash(__name__, suppress_callback_exceptions=True)
 server = app.server
 
 #========================================LOAD DATA========================================
-
+# Function to load data from Google Cloud Storage
 def load_data_from_gcs(blob_name):
-    bucket_name = os.getenv('BUCKET_NAME')  # Corrected to the right environment variable
+    bucket_name = os.getenv('BUCKET_NAME')
     try:
         client = storage.Client()
         bucket = client.bucket(bucket_name)
@@ -29,13 +29,15 @@ def load_data_from_gcs(blob_name):
         print(f"Failed to load data: {e}")
         return pd.DataFrame()  # Return empty DataFrame or re-raise the exception based on your app's requirements
 
+# Wrapper function to load data asynchronously
+def load_data_async():
+    global equipment_df, sales_df
+    equipment_df = load_data_from_gcs('merged_equipment1.csv')
+    sales_df = load_data_from_gcs('clean_sales1.csv')
 
-# Load the equipment data
-equipment_df = load_data_from_gcs('merged_equipment1.csv')
-#equipment_df['year'] = pd.to_datetime(equipment_df['Model Yr'], format='%Y', errors='coerce').dt.year  # Converts 'Model Yr' column to datetime object keeping only the year
-
-# Load the sales data
-sales_df = load_data_from_gcs('clean_sales1.csv')
+# Starting the thread to load data
+data_loading_thread = threading.Thread(target=load_data_async)
+data_loading_thread.start()
 
 
 #========================================LAYOUTS========================================
