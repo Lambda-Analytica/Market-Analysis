@@ -1,13 +1,9 @@
 #========================================LIBRARIES========================================
-
-from dash import Dash, html, Input, Output
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import Dash, html, Input, Output, dcc, callback_context  # Consolidated Dash imports
 import pandas as pd
 import dash_leaflet as dl
 import plotly.express as px
 import plotly.graph_objects as go
-from dash import callback_context
 from google.cloud import storage
 from io import BytesIO
 import os
