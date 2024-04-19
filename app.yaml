@@ -1,8 +1,8 @@
 runtime: python310
-entrypoint: gunicorn -b :$PORT main:app
+entrypoint: gunicorn -b :$PORT app:server
 
 env_variables:
-  BUCKET_NAME: "your-bucket-name"
+  BUCKET_NAME: "dinex_bucket"
 
 automatic_scaling:
   target_cpu_utilization: 0.65
