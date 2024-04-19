@@ -1,25 +1,10 @@
-from dash.dependencies import Input, Output
-import dash_core_components as dcc
-import dash_html_components as html
+# index.py
+from app import app, server  # Import the 'app' and 'server' instances from your main app module
 
-from Dinex_US.apps import country
-from app import app
-server = app.server
-from apps import country
-
-
-app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
-])
-
-@app.callback(Output('page-content', 'children'),
-             [Input('url', 'pathname')])
-def display_page(pathname):
-    if pathname == '/country':
-        return country.layout
-    else:
-        return country.layout
+# This ensures that the `index.py` serves as the entry point for your application.
+# Google App Engine requires this for routing and managing the application.
 
 if __name__ == '__main__':
-    app.run_server()
+    # App Engine instances have a pre-configured port set via the environment variable 'PORT'
+    # There's generally no need to specify it manually unless for local testing
+    app.run_server(debug=False)
