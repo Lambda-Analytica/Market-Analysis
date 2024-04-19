@@ -3,7 +3,7 @@ runtime: python39  # specify your Python runtime
 entrypoint: gunicorn -b :$PORT index:server
 
 env_variables:
-  BUCKET_NAME: 'your-bucket-name'
+  BUCKET_NAME: 'dinex_bucket'
   # Set other environment variables as needed.
 
 handlers:
