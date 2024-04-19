@@ -13,7 +13,8 @@ handlers:
   redirect_http_response_code: 301
 
 automatic_scaling:
-  min_idle_instances: auto
-  max_idle_instances: auto  # Adjust these settings based on your needs.
+  min_idle_instances: automatic
+  max_idle_instances: automatic  # Adjust these settings based on your needs.
   min_instances: 1
   max_instances: 5
+
