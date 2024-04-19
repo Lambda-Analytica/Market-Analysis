@@ -1,5 +1,3 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['deploy', 'app', 'app.yaml']
-  env:
-    - 'BUCKET_NAME=dinex_bucket'
+  args: ['app', 'deploy']
