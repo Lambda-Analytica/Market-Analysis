@@ -1,18 +1,19 @@
-runtime: python39
-env: flex
+runtime: python39  # specify your Python runtime
 
-entrypoint: gunicorn -b :$PORT app:server
-
-automatic_scaling:
-  min_num_instances: 1
-  max_num_instances: 2
-  cpu_utilization:
-    target_utilization: 0.75
-
-resources:
-  cpu: 1
-  memory_gb: 0.5
-  disk_size_gb: 10
+entrypoint: gunicorn -b :$PORT index:server
 
 env_variables:
-  BUCKET_NAME: "dinex_bucket"
+  BUCKET_NAME: 'your-bucket-name'
+  # Set other environment variables as needed.
+
+handlers:
+- url: /.*
+  script: auto
+  secure: always
+  redirect_http_response_code: 301
+
+automatic_scaling:
+  min_idle_instances: auto
+  max_idle_instances: auto  # Adjust these settings based on your needs.
+  min_instances: 1
+  max_instances: 5
