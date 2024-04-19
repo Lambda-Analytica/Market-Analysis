@@ -1,19 +1,18 @@
 runtime: python39
-env: flex  # Changed from standard to flexible
+env: flex
 
-entrypoint: gunicorn -b :$PORT app:server  # Reduced number of workers for lower traffic
+entrypoint: gunicorn -b :$PORT app:server
 
 automatic_scaling:
-  min_num_instances: 1  # Minimum number of instances
-  max_num_instances: 2  # Maximum number of instances
+  min_num_instances: 1
+  max_num_instances: 2
   cpu_utilization:
     target_utilization: 0.75
 
-resources:  # Define the computing resources per instance
+resources:
   cpu: 1
   memory_gb: 0.5
-  disk_size_gb: 10  # Adjust disk size as necessary
+  disk_size_gb: 10
 
 env_variables:
   BUCKET_NAME: "dinex_bucket"
-
