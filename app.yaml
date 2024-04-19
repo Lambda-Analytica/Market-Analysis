@@ -2,7 +2,7 @@ runtime: python310
 entrypoint: gunicorn -b :$PORT app:server
 
 env_variables:
-  BUCKET_NAME: "dinex_bucket"
+  BUCKET_NAME: "dinex-us-420813.appspot.com "
 
 automatic_scaling:
   target_cpu_utilization: 0.65
