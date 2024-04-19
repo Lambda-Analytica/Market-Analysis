@@ -1,6 +1,8 @@
 #========================================LIBRARIES========================================
-from dash import Dash, dcc, html, Input, Output
-from dash.dependencies import Input, Output
+
+from dash import Dash, html, Input, Output
+import dash_core_components as dcc
+import dash_html_components as html
 import pandas as pd
 import dash_leaflet as dl
 import plotly.express as px
