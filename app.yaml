@@ -1,4 +1,4 @@
-runtime: python39  # specify your Python runtime
+runtime: python310  # specify your Python runtime
 
 entrypoint: gunicorn -b :$PORT index:server
 
